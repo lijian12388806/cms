@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<project name="ts" default="deploy" basedir=".">
+    <property environment="env" />  
+  	<property file="${basedir}/build.properties"/>
+	
+  	<property name="src.dir" value="${basedir}/src" />
+	<property name="root.dir" value="${basedir}/WebContent" />
+	<property name="lib.dir" value="${root.dir}/WEB-INF/lib" />
+	<property name="config.dir" value="${basedir}/config" />
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="build.classes" value="${build.dir}/classes" />
+	
+    <!-- 初始化classpath -->  
+    <path id= "project.classpath">
+		<pathelement path="${java.class.path}" />
+		<pathelement location="${build.classes}" />
+        <!-- 项目lib路径 -->
+		<fileset dir="${lib.dir}">  
+            <include name="**/*.jar" />  
+        </fileset>  
+        <!-- 添加tomcat api jar包路径 -->  
+        <fileset dir="${catalina.home}/lib">  
+            <include name="**/*.jar" />  
+        </fileset>
+        <!-- 添加ant lib包  -->  
+        <fileset dir="${ant.dir}">  
+            <include name="**/*.jar" />  
+        </fileset>  
+    </path>  
+  
+    <!-- get the source compile classpath in a printable form -->  
+    <pathconvert pathsep="${line.separator}|   |-- "  
+             property="echo.path.compile"  
+             refid="project.classpath">  
+    </pathconvert>  
+      
+    <!-- 打印显示classpath路径,包含子路径 -->  
+    <target name="print_classpath">  
+        <echo message="|-- compile classpath"/>  
+        <echo message="|   |"/>  
+        <echo message="|   |-- ${echo.path.compile}"/>  
+    </target>  
+      
+      
+    <!-- 删除之前的目录结构并重建 -->  
+    <target name="clean" description="清理旧文件">
+        <echo message="begin clean..." />  
+		<delete dir="${build.dir}" quiet="true" />
+        <mkdir dir="${build.classes}" />
+        <echo message="end clean..." />  
+    </target>  
+	
+  
+    <!-- 编译java -->  
+    <target name="compile" depends="clean" description="编译java文件">  
+        <echo message="begin compile..." />  
+        <javac srcdir="${src.dir}" destdir="${build.classes}"  includeantruntime="false" nowarn="on"   
+            source="1.7" target="1.7" deprecation="true" debug="true"  encoding="UTF-8" classpathref="project.classpath">
+            <compilerarg line="-Xlint:unchecked" />
+			<classpath refid="project.classpath" />            
+        </javac>  
+        <copy todir="${build.classes}">  
+            <fileset dir="${src.dir}">  
+                <include name="**/*.xml" />
+                <include name="**/*.properties" />  
+            </fileset>
+        </copy>
+        <echo message="end compile..." />
+    </target>  
+  
+	<!-- 将配置文件复制到部署目录  -->
+	<target name="copyconfig" description="复制配置文件">
+        <echo message="start copy config file..." />
+		<copy todir="${deploy.dir}/WEB-INF/classes" overwrite="true">  
+            <fileset dir="${config.dir}">  
+                <include name="**/*.xml" />  
+                <include name="**/*.properties" />  
+                <include name="**/*" />  
+            </fileset>
+        </copy>
+        <echo message="end copy config file..." />
+	</target>
+	
+    <!-- 将所有class文件打成 jar包 -->  
+    <target name="jar" depends="compile" description="将所有class文件打成 jar包 ">   
+	    <echo message="begin package entity class file to jar..." />  
+        <jar jarfile="${file.dir}/${webapp.name}-all.jar">   
+            <fileset dir="${build.dir}/classes">   
+                <include name="**/*.class"/>   
+            </fileset>   
+        </jar>   
+	    <echo message="end package entity class file to jar..." />  
+    </target>
+	
+	
+	<!-- 将src中的entity实体类打jar包 -->
+    <target name="jarentity" depends="compile" description="打包实体类的class文件为jar包">   
+	    <echo message="begin package all class file to jar..." />  
+        <jar jarfile="${file.dir}/${webapp.name}-entity.jar">   
+            <fileset dir="${build.dir}/classes/com/xkw/xy360/entity">   
+                <include name="**/*.class"/>   
+            </fileset>   
+        </jar>   
+	    <echo message="end package all class file to jar..." />  
+    </target>
+	
+	
+	<!-- 部署项目,将项目的编译后的文件部署到指定目录, 不复制files中的文件  -->
+	<target name="deploy" depends="compile" description="部署项目">
+	    <echo message="begin deploy..." />  
+		<copy todir="${deploy.dir}" overwrite="true">
+			<fileset dir="${root.dir}" />
+		</copy>
+		<copy todir="${deploy.dir}/WEB-INF" overwrite="true">
+			<fileset dir="${build.dir}" />
+		</copy>
+		<delete dir="${build.dir}" quiet="true" />
+		<echo message="end deploy..." />
+	</target>
+	
+	<!-- 部署项目,将项目的编译后的文件部署到指定目录 , 需复制files中的文件-->
+	<target name="deployFirst" depends="compile" description="部署项目">
+	    <echo message="begin deploy..." />  
+		<copy todir="${deploy.dir}" overwrite="true">
+			<fileset dir="${root.dir}" />
+		</copy>
+		<copy todir="${deploy.dir}/WEB-INF" overwrite="true">
+			<fileset dir="${build.dir}" />
+		</copy>
+		<!--<copy todir="${deploy.dir}/WEB-INF/classes">-->  
+		<copy todir="${deploy.dir}/WEB-INF/classes" overwrite="true">  
+            <fileset dir="${config.dir}">  
+                <include name="**/*.xml" />  
+                <include name="**/*.properties" />  
+            </fileset>
+        </copy>
+		<echo message="end copy files..." />
+		<delete dir="${build.dir}" quiet="true" />
+		<echo message="end deploy..." />
+	</target>
+	
+	<!-- 单独复制files文件夹中的文件 -->
+	<target name="copyFiles" depends="compile" description="部署项目">
+	    <echo message="begin copy files..." />  
+		<copy todir="${deploy.dir}/files" overwrite="true">
+			<fileset dir="${basedir}/files" />
+		</copy>
+		<echo message="end copy files..." />
+	</target>
+  
+	
+    <!-- 打成war包, 名称默认为 项目名 -->  
+    <target name="war" depends="compile" description="将工程打成war包">  
+        <echo message="begin war..." />  
+        <war destfile="${file.dir}/${webapp.name}.war" basedir="${root.dir}"   
+            webxml="${root.dir}/WEB-INF/web.xml">  
+            <lib dir="${lib.dir}" />  
+            <classes dir="${build.dir}/classes" />  
+            <fileset dir="${root.dir}">  
+                <include name="***.*" />  
+            </fileset>  
+        </war>
+    	<delete dir="${build.dir}" quiet="true" />
+        <echo message="end war..." />  
+    </target>  
+
+</project>

@@ -1,0 +1,43 @@
+<%@ page import="org.springframework.security.core.AuthenticationException" %>
+<%@ page import="org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter" %>
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%if(((AuthenticationException) session.getAttribute(AbstractAuthenticationProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY))!=null){%>
+<div class="msg error">
+    登录失败,错误原因: <%= ((AuthenticationException) session.getAttribute(AbstractAuthenticationProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY)).getMessage() %>.
+</div>
+<%}%>
+
+<form action="<c:url value='/j_spring_security_check'/>" method="post">
+    <table>
+        <tr>
+            <td>
+                <label for="j_username">用户</label>
+            </td>
+            <td>
+                <input type="text" name="j_username" id="j_username" size="15"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="j_password">密码</label>
+            </td>
+            <td>
+                <input type="password" name="j_password" id="j_password" size="15"/>
+            </td>
+        </tr>      
+        <tr>
+            <td colspan="2">
+                <input type='checkbox' name='_spring_security_remember_me'/> 在本机保存我的登录信息.
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Login"/>
+            </td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">
+    document.getElementById('j_username').focus();
+</script>

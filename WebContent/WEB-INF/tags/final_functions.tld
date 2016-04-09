@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib 
+    version="2.0"
+    xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
+    
+    <description>zxxk Functions library</description>
+    <display-name>functions</display-name>
+    <tlib-version>1.1</tlib-version>
+    <short-name>final</short-name>
+    <uri>http://final_functions</uri>
+
+    <function>
+        <description>Test</description>
+        <name>test</name>
+        <function-class>com.xy.xyupload.common.utils.JstlFunctions</function-class>
+        <function-signature>void test(int)</function-signature>
+        <example>
+            ${mis:test(1)}
+        </example>
+    </function>
+
+    <function>
+        <description>Evaluate model path</description>
+        <name>valueOf</name>
+        <function-class>com.xy.xyupload.common.Grade</function-class>
+        <function-signature>java.lang.Object valueOf(java.lang.Integer)</function-signature>
+        <example>
+            ${final:valueOf(1)}
+        </example>
+    </function>
+    <function>
+        <description>VersionToString method on the object</description>
+        <name>versionToString</name>
+        <function-class>com.xy.xyupload.common.Version</function-class>
+        <function-signature>java.lang.String versionToString(java.lang.Integer)</function-signature>
+        <example>
+            ${final:versionToString(1)}
+        </example>
+    </function>
+    <function>
+        <description>LevelValue method with one argument on the object</description>
+        <name>levelValue</name>
+        <function-class>com.xy.xyupload.common.Level</function-class>
+        <function-signature>java.lang.Object levelValue(java.lang.Integer)</function-signature>
+        <example>
+            ${final:levelValue(3)}
+        </example>
+    </function>
+    <function>
+        <description>GetCategoryString </description>
+        <name>getCategoryString</name>
+        <function-class>com.xy.xyupload.common.Version</function-class>
+        <function-signature>java.lang.Object getCategoryString(java.lang.Integer)</function-signature>
+        <example>
+            ${final:getCategoryString(5)}
+        </example>
+    </function>
+    <function>
+        <description>SubjectValue </description>
+        <name>subjectValue</name>
+        <function-class>com.xy.xyupload.common.Subject</function-class>
+        <function-signature>java.lang.Object subjectValue(java.lang.Integer)</function-signature>
+        <example>
+            ${final:subjectValue(date)}
+        </example>
+    </function>
+
+    <function>
+        <description>SplitCoverPath </description>
+        <name>splitCoverPath</name>
+        <function-class>com.xkw.utils.JstlFunctions</function-class>
+        <function-signature>java.lang.String splitCoverPath(java.lang.String)</function-signature>
+        <example>
+            ${final:splitCoverPath(cover)}
+        </example>
+    </function>
+    <function>
+        <description>Convert</description>
+        <name>convert</name>
+        <function-class>com.xkw.utils.JstlFunctions</function-class>
+        <function-signature>java.lang.String convert(java.lang.Integer)</function-signature>
+        <example>
+            ${final:convert(cover)}
+        </example>
+    </function>
+
+</taglib>

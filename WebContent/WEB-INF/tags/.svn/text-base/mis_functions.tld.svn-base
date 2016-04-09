@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib 
+    version="2.0"
+    xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
+    
+    <description>Tianyou Functions library</description>
+    <display-name>functions</display-name>
+    <tlib-version>1.1</tlib-version>
+    <short-name>mis</short-name>
+    <uri>http://mis_functions</uri>
+
+    <function>
+        <description>Test</description>
+        <name>test</name>
+        <function-class>com.tianyou.a1.server.common.util.JstlFunctions</function-class>
+        <function-signature>void test(int)</function-signature>
+        <example>
+            ${mis:test(1)}
+        </example>
+    </function>
+
+    <function>
+        <description>Evaluate model path</description>
+        <name>evalModelPath</name>
+        <function-class>com.tianyou.a1.server.common.util.JstlFunctions</function-class>
+        <function-signature>java.lang.Object evalModelPath(java.util.Map, java.lang.String)</function-signature>
+        <example>
+            ${mis:evalModelPath(requestScope, 'someModelObject.and.his.property')}
+        </example>
+    </function>
+    <function>
+        <description>Call method on the object</description>
+        <name>call</name>
+        <function-class>com.tianyou.a1.server.common.util.JstlFunctions</function-class>
+        <function-signature>java.lang.Object call(java.lang.Object, java.lang.String)</function-signature>
+        <example>
+            ${mis:call(list, "size")}
+        </example>
+    </function>
+    <function>
+        <description>Call method with one argument on the object</description>
+        <name>call1</name>
+        <function-class>com.tianyou.a1.server.common.util.JstlFunctions</function-class>
+        <function-signature>java.lang.Object call1(java.lang.Object, java.lang.String, java.lang.Object)</function-signature>
+        <example>
+            ${mis:call1(list, "get", 3)}
+        </example>
+    </function>
+    <function>
+        <description>Call method with two arguments on the object</description>
+        <name>call2</name>
+        <function-class>com.tianyou.a1.server.common.util.JstlFunctions</function-class>
+        <function-signature>java.lang.Object call2(java.lang.Object, java.lang.String, java.lang.Object, java.lang.Object)</function-signature>
+        <example>
+            ${mis:call2(text, "substring", 3, 5)}
+        </example>
+    </function>
+    <function>
+        <description>Simple date format yyyy-MM-dd</description>
+        <name>simpleDate</name>
+        <function-class>com.tianyou.a1.server.common.util.JstlFunctions</function-class>
+        <function-signature>java.lang.String simpleDate(java.util.Date)</function-signature>
+        <example>
+            ${mis:simpleDate(date)}
+        </example>
+    </function>
+    <function>
+        <description>Simple time format HH:mm</description>
+        <name>simpleTime</name>
+        <function-class>com.tianyou.a1.server.common.util.JstlFunctions</function-class>
+        <function-signature>java.lang.String simpleTime(java.util.Date)</function-signature>
+        <example>
+            ${mis:simpleTime(date)}
+        </example>
+    </function>
+    <function>
+        <description>Simple date time format yyyy-MM-dd HH:mm</description>
+        <name>simpleDateTime</name>
+        <function-class>com.tianyou.a1.server.common.util.JstlFunctions</function-class>
+        <function-signature>java.lang.String simpleDateTime(java.util.Date)</function-signature>
+        <example>
+            ${mis:simpleDateTime(date)}
+        </example>
+    </function>
+    <function>
+        <description>Truncate text</description>
+        <name>trunc</name>
+        <function-class>com.tianyou.a1.server.common.util.JstlFunctions</function-class>
+        <function-signature>java.lang.String trunc(java.lang.String, int)</function-signature>
+        <example>
+            ${mis:trunc(text, 100)}
+        </example>
+    </function>
+</taglib>
